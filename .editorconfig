@@ -1,4 +1,4 @@
-[*.{jsx,tsx,vue}]
+[*.{jsx,tsx,vue,css}]
 indent_style = space
 indent_size = 2
 

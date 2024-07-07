@@ -1,10 +1,10 @@
-let username = "x";
+let username = 0;
 const server = Bun.serve<{ username: string }>({
 	fetch(req, server) {
 		const url = new URL(req.url);
 		if (url.pathname === "/chat") {
 			console.log(`upgrade!`);
-			username += "x";
+			username += 1;
 			const success = server.upgrade(req, { data: { username } });
 			return success
 				? undefined
@@ -23,6 +23,7 @@ const server = Bun.serve<{ username: string }>({
 			// this is a group chat
 			// so the server re-broadcasts incoming message to everyone
 			server.publish("the-group-chat", `${ws.data.username}: ${message}`);
+			console.log(message);
 		},
 		close(ws) {
 			const msg = `${ws.data.username} has left the chat`;
@@ -33,4 +34,3 @@ const server = Bun.serve<{ username: string }>({
 });
 
 console.log(`Listening on ${server.hostname}:${server.port}`);
-
