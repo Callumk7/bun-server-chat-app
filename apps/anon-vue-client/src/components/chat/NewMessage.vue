@@ -1,10 +1,16 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, type HTMLAttributes } from "vue";
 import Button from "../ui/button/Button.vue";
 import Input from "../ui/input/Input.vue";
+import { cn } from "@/lib/utils";
 
-// Define emits
 const emit = defineEmits(["send"]);
+
+interface Props {
+  class?: HTMLAttributes['class']
+}
+
+const props = defineProps<Props>()
 
 // Reactive variable for the new message input
 const newMessage = ref<string>("");
@@ -19,7 +25,7 @@ const sendMessage = () => {
 </script>
 
 <template>
-  <div class="flex gap-4">
+  <div :class="cn('flex gap-4', props.class)">
     <Input v-model="newMessage" @keyup.enter="sendMessage" placeholder="Type a message" />
     <Button @click="sendMessage">Send</Button>
   </div>

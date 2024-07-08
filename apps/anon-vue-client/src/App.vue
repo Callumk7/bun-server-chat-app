@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import Navigation from './components/Navigation.vue';
+import { RouterLink, RouterView } from "vue-router";
+import Navigation from "./components/Navigation.vue";
 </script>
 
 <template>
-  <Navigation />
-  <RouterView />
+  <div class="h-screen">
+    <Navigation />
+    <RouterView />
+  </div>
 </template>

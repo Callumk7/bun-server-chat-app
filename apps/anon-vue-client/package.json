@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^10.11.0",
+    "callum-util": "^1.2.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-vue-next": "^0.400.0",
