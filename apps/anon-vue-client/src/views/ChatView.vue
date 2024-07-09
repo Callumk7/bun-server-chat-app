@@ -4,11 +4,13 @@ import Message from "@/components/chat/Message.vue";
 import NewMessage from "@/components/chat/NewMessage.vue";
 import { useMessageStore } from "@/stores/messages";
 
+const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:3000/chat";
+
 const ws = ref<WebSocket | null>(null);
 const messageStore = useMessageStore();
 
 onMounted(() => {
-	ws.value = new WebSocket("ws://localhost:3000/chat");
+	ws.value = new WebSocket(WS_URL);
 	ws.value.onmessage = (event: MessageEvent) => {
 		messageStore.append(event.data);
 	};

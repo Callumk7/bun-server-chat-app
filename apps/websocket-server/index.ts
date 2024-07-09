@@ -1,12 +1,17 @@
 import { logger } from "./lib/logger";
 import { sanitiseMessage } from "./lib/validation";
 
+const PORT = process.env.PORT || 3000;
+const HOST = "0.0.0.0"; // This allows connections from any IP
+
 let username = 0;
 
 const server = Bun.serve<{ username: string }>({
+	port: PORT,
+	hostname: HOST,
 	fetch(req, server) {
 		const url = new URL(req.url);
-		if (url.pathname === "/chat") {
+		if (url.pathname === "/ws") {
 			logger.log("upgrade!");
 			username += 1;
 			const success = server.upgrade(req, { data: { username } });
