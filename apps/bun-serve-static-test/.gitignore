@@ -10,9 +10,6 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 
-normalLog.txt
-errorLog.txt
-
 # Caches 
 
 .cache
