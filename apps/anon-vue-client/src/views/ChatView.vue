@@ -4,7 +4,7 @@ import Message from "@/components/chat/Message.vue";
 import NewMessage from "@/components/chat/NewMessage.vue";
 import { useMessageStore } from "@/stores/messages";
 
-const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:3000/chat";
+const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:3000/ws";
 
 const ws = ref<WebSocket | null>(null);
 const messageStore = useMessageStore();
