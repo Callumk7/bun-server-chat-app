@@ -1,5 +1,6 @@
 {
   "name": "anon-bun-monorepo",
+  "private": true,
   "workspaces": [
     "packages/*",
     "apps/*"

@@ -1,42 +1,64 @@
+import type { Message } from "@anon-bun-monorepo/schema";
 import { defineStore } from "pinia";
-import { uuidv4 } from "callum-util";
 
-export type Message = {
-	id: string;
+interface SystemMessage {
 	content: string;
-	isFlagged: boolean;
-	isHidden: boolean;
-};
+	timestamp: string;
+	isSystem: true;
+}
+
+interface ClientMessage extends Message {
+	isHidden?: boolean;
+	isFlagged?: boolean;
+}
+
+type AnyMessage = ClientMessage | SystemMessage;
 
 export const useMessageStore = defineStore("messages", {
 	state: () => ({
-		messages: [] as Message[],
+		messages: [] as AnyMessage[],
 	}),
 	getters: {
 		allMessages(state) {
 			return state.messages;
 		},
-		visibleMessages(state) {
-			return state.messages.filter((msg) => !msg.isHidden);
+		visibleMessages(state): AnyMessage[] {
+			return state.messages.filter(
+				(msg): msg is AnyMessage => !("isHidden" in msg && msg.isHidden),
+			);
 		},
 	},
 	actions: {
-		append(messageContent: string) {
+		append(data: Message) {
+			this.messages.push({ ...data, isHidden: false, isFlagged: false });
+		},
+		appendSystemMessage(content: string) {
 			this.messages.push({
-				id: uuidv4(),
-				content: messageContent,
-				isFlagged: false,
-				isHidden: false,
+				content,
+				timestamp: new Date().toISOString(),
+				isSystem: true,
 			});
 		},
-		markAsFlagged(id: string) {
-			const message = this.messages.find((msg) => msg.id === id);
+		set(messages: Message[]) {
+			console.log("Setting messages in store:", messages);
+			this.messages = messages.map((msg) => ({
+				...msg,
+				isHidden: false,
+				isFlagged: false,
+			}));
+		},
+		markAsFlagged(id: number) {
+			const message = this.messages.find(
+				(msg): msg is ClientMessage => "id" in msg && msg.id === id,
+			);
 			if (message) {
 				message.isFlagged = true;
 			}
 		},
-		markAsHidden(id: string) {
-			const message = this.messages.find((msg) => msg.id === id);
+		markAsHidden(id: number) {
+			const message = this.messages.find(
+				(msg): msg is ClientMessage => "id" in msg && msg.id === id,
+			);
 			if (message) {
 				message.isHidden = true;
 			}

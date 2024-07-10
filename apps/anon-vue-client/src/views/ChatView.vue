@@ -3,6 +3,7 @@ import { ref, onMounted, onBeforeUnmount } from "vue";
 import Message from "@/components/chat/Message.vue";
 import NewMessage from "@/components/chat/NewMessage.vue";
 import { useMessageStore } from "@/stores/messages";
+import { serverMessageSchema, type ClientMessage } from "@anon-bun-monorepo/schema";
 
 const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:3000/ws";
 
@@ -12,14 +13,34 @@ const messageStore = useMessageStore();
 onMounted(() => {
 	ws.value = new WebSocket(WS_URL);
 	ws.value.onmessage = (event: MessageEvent) => {
-		messageStore.append(event.data);
+		try {
+			const data = serverMessageSchema.parse(JSON.parse(event.data));
+      console.log("Received message:", data);
+			switch (data.type) {
+				case "recent_messages":
+          console.log("Setting recent messages:", data.messages);
+					messageStore.set(data.messages);
+					break;
+
+				case "new_message":
+					messageStore.append(data.message);
+					break;
+
+				case "user_event":
+					messageStore.appendSystemMessage(data.content);
+					break;
+			}
+		} catch (err) {
+			console.error("Invalid message format", err);
+		}
 	};
 });
 
 // Function to add a new message to the messages array
-const addMessage = (msg: string) => {
-	if (ws.value) {
-		ws.value.send(msg);
+const addMessage = (content: string) => {
+	if (ws.value && ws.value.readyState === WebSocket.OPEN) {
+		const message: ClientMessage = { content };
+		ws.value.send(JSON.stringify(message));
 	}
 };
 
