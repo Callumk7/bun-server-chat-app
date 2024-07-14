@@ -6,6 +6,8 @@ export const messageSchema = z.object({
 	username: z.string(),
 	content: z.string(),
 	timestamp: z.string(),
+	isFlagged: z.boolean().optional(),
+	isHidden: z.boolean().optional(),
 });
 
 // Server to client messages

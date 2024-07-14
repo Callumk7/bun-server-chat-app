@@ -15,10 +15,10 @@ onMounted(() => {
 	ws.value.onmessage = (event: MessageEvent) => {
 		try {
 			const data = serverMessageSchema.parse(JSON.parse(event.data));
-      console.log("Received message:", data);
+			console.log("Received message:", data);
 			switch (data.type) {
 				case "recent_messages":
-          console.log("Setting recent messages:", data.messages);
+					console.log("Setting recent messages:", data.messages);
 					messageStore.set(data.messages);
 					break;
 

@@ -12,7 +12,7 @@ interface ClientMessage extends Message {
 	isFlagged?: boolean;
 }
 
-type AnyMessage = ClientMessage | SystemMessage;
+export type AnyMessage = ClientMessage | SystemMessage;
 
 export const useMessageStore = defineStore("messages", {
 	state: () => ({
@@ -47,7 +47,7 @@ export const useMessageStore = defineStore("messages", {
 				isFlagged: false,
 			}));
 		},
-		markAsFlagged(id: number) {
+		markAsFlagged(id: number | undefined) {
 			const message = this.messages.find(
 				(msg): msg is ClientMessage => "id" in msg && msg.id === id,
 			);
@@ -55,7 +55,7 @@ export const useMessageStore = defineStore("messages", {
 				message.isFlagged = true;
 			}
 		},
-		markAsHidden(id: number) {
+		markAsHidden(id: number | undefined) {
 			const message = this.messages.find(
 				(msg): msg is ClientMessage => "id" in msg && msg.id === id,
 			);
