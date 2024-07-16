@@ -42,7 +42,10 @@ const server = Bun.serve<{ username: string }>({
 				type: "recent_messages",
 				messages: recentMessages,
 			};
-			console.log("Sending recent messages event:", JSON.stringify(recentMessagesEvent));
+			console.log(
+				"Sending recent messages event:",
+				JSON.stringify(recentMessagesEvent),
+			);
 			ws.send(JSON.stringify(recentMessagesEvent));
 		},
 		message(ws, message: string) {

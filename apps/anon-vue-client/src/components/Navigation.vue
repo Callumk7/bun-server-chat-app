@@ -9,7 +9,7 @@ import {
 </script>
 
 <template>
-  <NavigationMenu>
+  <NavigationMenu class="mx-auto w-11/12 my-4">
     <NavigationMenuList>
       <NavigationMenuItem>
         <RouterLink to="/chat">
