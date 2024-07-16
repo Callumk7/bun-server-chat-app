@@ -25,8 +25,8 @@ const sendMessage = () => {
 </script>
 
 <template>
-  <div :class="cn('flex gap-4', props.class)">
-    <Input v-model="newMessage" @keyup.enter="sendMessage" placeholder="Type a message" />
+  <div :class="cn('fixed bottom-5 flex gap-4 w-11/12 mx-auto', props.class)">
+    <Input class="self-stretch max-w-4/5" v-model="newMessage" @keyup.enter="sendMessage" placeholder="Type a message" />
     <Button @click="sendMessage">Send</Button>
   </div>
 </template>
