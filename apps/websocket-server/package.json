@@ -2,9 +2,10 @@
 	"name": "websocket-server",
 	"module": "index.ts",
 	"type": "module",
-    "scripts": {
-        "build": "bun run build.ts"
-    },
+	"scripts": {
+		"start": "bun run --watch index.ts",
+		"build": "bun run build.ts"
+	},
 	"dependencies": {
 		"@anon-bun-monorepo/schema": "workspace:*"
 	},
