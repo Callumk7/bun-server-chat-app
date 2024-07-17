@@ -10,10 +10,7 @@ export class MessageService {
 	}
 
 	private initDatabase() {
-		if (this.db) return; // Database already initialized
-
 		try {
-			this.db = new Database("messages.sqlite", { create: true });
 			this.db.run(`
       CREATE TABLE IF NOT EXISTS messages (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
